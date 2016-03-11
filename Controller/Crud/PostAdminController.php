@@ -6,13 +6,9 @@ use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Media\Media;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Nz\Wp\MigrationBundle\Admin\Traits\MigrationTrait;
 
 class PostAdminController extends Controller
 {
-
-    use MigrationTrait;
-    const WP_UPLOADS_BASE = '/media/tino/data/sites/www/clubber-mag-dev/wp-content/uploads/';
 
     /**
      * Default action needed for sonata-admin menu builder to show in menu
