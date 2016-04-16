@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Constraints;
  */
 class Taxonomy
 {
+
     /**
      * {@inheritdoc}
      *
@@ -202,5 +203,10 @@ class Taxonomy
     public function getPosts()
     {
         return $this->posts;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

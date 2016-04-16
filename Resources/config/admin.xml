@@ -6,8 +6,25 @@
 
     <services>
        
+        <!--   OPTIONS     -->
+        <service id="nz.wordpress.admin.option" class="Nz\WordpressBundle\Admin\OptionAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="nz_wordpress" label="options"  label_catalogue="%nz.shop.admin.shop.translation_domain%" label_translator_strategy="sonata.admin.label.strategy.underscore" />
+
+            <argument />
+            <argument>Nz\WordpressBundle\Entity\Option</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+        <!--   Comments  -->
+        <service id="nz.wordpress.admin.comment" class="Nz\WordpressBundle\Admin\CommentAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="nz_wordpress" label="comments"  label_catalogue="%nz.shop.admin.shop.translation_domain%" label_translator_strategy="sonata.admin.label.strategy.underscore" />
+
+            <argument />
+            <argument>Nz\WordpressBundle\Entity\Comment</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+        </service>
+        
         <!--   USERS     -->
-        <service id="nz_wordpress.admin.user" class="Nz\WordpressBundle\Admin\UserAdmin">
+        <service id="nz.wordpress.admin.user" class="Nz\WordpressBundle\Admin\UserAdmin">
             <tag name="sonata.admin" manager_type="orm" group="nz_wordpress" label="users"  label_catalogue="%nz.shop.admin.shop.translation_domain%" label_translator_strategy="sonata.admin.label.strategy.underscore" />
 
             <argument />
@@ -15,11 +32,11 @@
             <argument>NzWordpressBundle:Crud/UserAdmin</argument>
             
             <call method="addChild">
-                <argument type="service" id="nz_wordpress.admin.user_meta" />
+                <argument type="service" id="nz.wordpress.admin.users_metas" />
             </call>
         </service>
         
-        <service id="nz_wordpress.admin.user_meta" class="Nz\WordpressBundle\Admin\UserMetaAdmin">
+        <service id="nz.wordpress.admin.users_metas" class="Nz\WordpressBundle\Admin\UserMetaAdmin">
             <tag name="sonata.admin" manager_type="orm" group="nz_wordpress" label="user_meta"  label_catalogue="%nz.shop.admin.shop.translation_domain%" label_translator_strategy="sonata.admin.label.strategy.underscore" />
 
             <argument />
@@ -28,7 +45,7 @@
         </service>
         
         <!--   POSTS     -->
-        <service id="nz_wordpress.admin.post" class="Nz\WordpressBundle\Admin\PostAdmin">
+        <service id="nz.wordpress.admin.post" class="Nz\WordpressBundle\Admin\PostAdmin">
             <tag name="sonata.admin" manager_type="orm" group="nz_wordpress" label="posts"  label_catalogue="%nz.shop.admin.shop.translation_domain%" label_translator_strategy="sonata.admin.label.strategy.underscore" />
 
             <argument />
@@ -36,17 +53,39 @@
             <argument>NzWordpressBundle:Crud/PostAdmin</argument>
             
             <call method="addChild">
-                <argument type="service" id="nz_wordpress.admin.post_meta" />
+                <argument type="service" id="nz.wordpress.admin.posts_metas" />
+            </call>
+            <call method="addChild">
+                <argument type="service" id="nz.wordpress.admin.taxonomy" />
             </call>
         </service>
         
-        <service id="nz_wordpress.admin.post_meta" class="Nz\WordpressBundle\Admin\PostMetaAdmin">
+        <service id="nz.wordpress.admin.posts_metas" class="Nz\WordpressBundle\Admin\PostMetaAdmin">
             <tag name="sonata.admin" manager_type="orm" group="nz_wordpress" label="post_meta"  label_catalogue="%nz.shop.admin.shop.translation_domain%" label_translator_strategy="sonata.admin.label.strategy.underscore" />
 
             <argument />
             <argument>Nz\WordpressBundle\Entity\PostMeta</argument>
             <argument>SonataAdminBundle:CRUD</argument>
         </service>
+        
+        <!--   Taxonomy / Term     -->
+        <service id="nz.wordpress.admin.taxonomy" class="Nz\WordpressBundle\Admin\TaxonomyAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="nz_wordpress" label="taxonomy"  label_catalogue="%nz.shop.admin.shop.translation_domain%" label_translator_strategy="sonata.admin.label.strategy.underscore" />
+
+            <argument />
+            <argument>Nz\WordpressBundle\Entity\Taxonomy</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+            
+        </service>
+        <service id="nz.wordpress.admin.term" class="Nz\WordpressBundle\Admin\TermAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="nz_wordpress" label="term"  label_catalogue="%nz.shop.admin.shop.translation_domain%" label_translator_strategy="sonata.admin.label.strategy.underscore" />
+
+            <argument />
+            <argument>Nz\WordpressBundle\Entity\Term</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+            
+        </service>
+        
         
     </services>
 </container>

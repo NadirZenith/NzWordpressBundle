@@ -30,7 +30,7 @@ class UserAdmin extends Admin
             $this->trans('sidemenu.link_edit_user'), array('uri' => $admin->generateUrl('edit', array('id' => $id)))
         );
         $menu->addChild(
-            $this->trans('sidemenu.user_metas', array(), 'NzShopBundle'), array('uri' => $admin->generateUrl('nz_wordpress.admin.user_meta.list', array('id' => $id)))
+            $this->trans('sidemenu.user_metas', array(), 'NzShopBundle'), array('uri' => $admin->generateUrl('nz.wordpress.admin.users_metas.list', array('id' => $id)))
         );
     }
 

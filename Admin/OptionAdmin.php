@@ -10,10 +10,8 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Route\RouteCollection;
 
-class PostMetaAdmin extends Admin
+class OptionAdmin extends Admin
 {
-
-    protected $parentAssociationMapping = 'post';
 
     /**
      * @param \Sonata\AdminBundle\Datagrid\ListMapper $listMapper
@@ -22,17 +20,14 @@ class PostMetaAdmin extends Admin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        
-        if (!$this->isChild()) {
-            $listMapper
-                ->add('post');
-        }
         $listMapper
-            ->addIdentifier('key')
+            ->addIdentifier('name')
             ->add('value')
+            ->add('autoload')
+
         ;
-        
-        
+
+        return $listMapper;
     }
 
     /**
@@ -42,28 +37,32 @@ class PostMetaAdmin extends Admin
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
-        
+
         $formMapper
             ->with('General', ['class' => 'col-md-8'])
+            ->add('name')
+            ->add('value')
+            ->add('autoload', 'choice', array(
+                'choices' => array(
+                    'yes' => 'Yes',
+                    'no' => 'No',
+                ),
+                'translation_domain' => 'NzWordpressBundle'
+            ))
             ->end()
-
         ;
-        if (!$this->isChild()) {
-            $formMapper
-                ->with('General')
-                    ->add('post','sonata_type_model_list', array(
-                        'required' => false,
-                        'btn_add' => false,
-                        'btn_delete' => false,
-                    ))
-                ->end()
-            ;
-        }
-        $formMapper
-            ->with('General')
-                ->add('key')
-                ->add('value')
-            ->end()
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    {
+
+        $datagridMapper
+            ->add('name')
+            ->add('value')
+            ->add('autoload')
         ;
     }
 }

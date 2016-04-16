@@ -113,7 +113,7 @@ class Comment
      * {@inheritdoc}
      *
      * @ORM\OneToOne(targetEntity="Comment")
-     * @ORM\JoinColumn(name="comment_parent", referencedColumnName="comment_ID")
+     * @ORM\JoinColumn(name="comment_parent", referencedColumnName="comment_ID", nullable=true)
      */
     protected $parent;
 

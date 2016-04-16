@@ -22,14 +22,15 @@ class UserMetaAdmin extends Admin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        if (!$this->isChild()) {
-            $listMapper
-                ->add('user.id');
-        }
+
         $listMapper
-            ->add('id')
             ->addIdentifier('key')
+            ->add('user')
+            ->add('value')
         ;
+        if ($this->isChild()) {
+            $listMapper->remove('user');
+        }
     }
 
     /**
@@ -41,10 +42,25 @@ class UserMetaAdmin extends Admin
     {
         $formMapper
             ->with('General', ['class' => 'col-md-8'])
-            ->add('key')
-            ->add('value')
             ->end()
 
+        ;
+        if (!$this->isChild()) {
+            $formMapper
+                ->with('General')
+                    ->add('user','sonata_type_model_list', array(
+                        'required' => false,
+                        'btn_add' => false,
+                        'btn_delete' => false,
+                    ))
+                ->end()
+            ;
+        }
+        $formMapper
+            ->with('General')
+                ->add('key')
+                ->add('value')
+            ->end()
         ;
     }
 }

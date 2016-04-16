@@ -141,4 +141,9 @@ class Term
     {
         return $this->taxonomy;
     }
+    
+    public function __toString()
+    {
+        return $this->name;
+    }
 }

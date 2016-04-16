@@ -31,7 +31,11 @@ class PostAdmin extends Admin
         );
 
         $menu->addChild(
-            $this->trans('sidemenu.post_metas', array(), 'NzShopBundle'), array('uri' => $admin->generateUrl('nz_wordpress.admin.post_meta.list', array('id' => $id)))
+            $this->trans('sidemenu.post_metas', array(), 'NzWordpressBundle'), array('uri' => $admin->generateUrl('nz.wordpress.admin.posts_metas.list', array('id' => $id)))
+        );
+        
+        $menu->addChild(
+            $this->trans('sidemenu.post_taxonomy', array(), 'NzWordpressBundle'), array('uri' => $admin->generateUrl('nz.wordpress.admin.taxonomy.list', array('id' => $id)))
         );
     }
 
@@ -48,7 +52,7 @@ class PostAdmin extends Admin
             ->addIdentifier('title')
             ->add('type')
             ->add('status')
-            ->add('slug')
+            /*->add('slug')*/
         /*
           ->add('enabled', null, ['editable' => true])
           ->add('featured', null, ['editable' => true])
@@ -61,6 +65,8 @@ class PostAdmin extends Admin
           ))
          */
         ;
+        
+        return $listMapper;
     }
 
     /**
@@ -77,12 +83,19 @@ class PostAdmin extends Admin
                 ->add('slug')
                 ->add('excerpt')
                 /* ->add('enabled') */
-                ->add('content', 'sonata_simple_formatter_type', array(
+                ->add('content', 'textarea', array(
+                    'attr' => array('style' => 'min-height:600px')
+                /*->add('content', 'sonata_simple_formatter_type', array(*/
                     /* 'format' => 'markdown' */
-                    'format' => 'richhtml'
+                    /*'format' => 'richhtml'*/
                 ))
             ->end()
             ->with('System', ['class' => 'col-md-4'])
+                /*->add('user')*/
+                ->add('user', 'sonata_type_model_list',array(
+                    'btn_add' => false,
+                    'btn_delete' => false
+                ))
                 ->add('status')
                 ->add('commentStatus')
                 ->add('pingStatus')
@@ -123,24 +136,34 @@ class PostAdmin extends Admin
 
         $datagridMapper
             ->add('title')
+            ->add('status')
             ->add('type')
-        /* ->add('tags', null, array('field_options' => array('expanded' => true, 'multiple' => true))) */
-        /*
-          ->add('author')
-          ->add('with_open_comments', 'doctrine_orm_callback', array(
-          //                'callback'   => array($this, 'getWithOpenCommentFilter'),
-          'callback' => function ($queryBuilder, $alias, $field, $data) use ($that) {
-          if (!is_array($data) || !$data['value']) {
-          return;
-          }
+            ->add('content')
+/*            
+            ->add('type', 'doctrine_orm_callback', array(
+//                'callback'   => array($this, 'getWithOpenCommentFilter'),
+                'callback' => function($queryBuilder, $alias, $field, $value) {
+                    if (!$value['value']) {
+                        return;
+                    }
+                  $posts =  $queryBuilder
+                        ->select('o.type')
+                        ->from('Nz\WordpressBundle\Entity\Post', '0')
+                        ->distinct()
+                        ->getQuery()
+                        ->getResult()
+                    ;
+                    return true;
+                    
+                    $queryBuilder->leftJoin(sprintf('%s.comments', $alias), 'c');
+                    $queryBuilder->andWhere('c.status = :status');
+                    $queryBuilder->setParameter('status', Comment::STATUS_MODERATE);
 
-          $queryBuilder->leftJoin(sprintf('%s.comments', $alias), 'c');
-          $queryBuilder->andWhere('c.status = :status');
-          $queryBuilder->setParameter('status', CommentInterface::STATUS_MODERATE);
-          },
-          'field_type' => 'checkbox',
-          ))
-         */
+                },
+                'field_type' => 'checkbox'//choice
+            ))
+ */
         ;
     }
+
 }

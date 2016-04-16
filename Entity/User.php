@@ -15,10 +15,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table(name="users")
  * @ORM\Entity
- * @UniqueEntity({"fields": "email", "message": "Sorry, that email address is already used."})
- * @UniqueEntity({"fields": "username", "message": "Sorry, that username is already used."})
- * @UniqueEntity({"fields": "nicename", "message": "Sorry, that nicename is already used."})
- * @UniqueEntity({"fields": "displayName", "message": "Sorry, that display name has already been taken."})
+ * UniqueEntity({"fields": "email", "message": "Sorry, that email address is already used."})
+ * UniqueEntity({"fields": "username", "message": "Sorry, that username is already used."})
+ * UniqueEntity({"fields": "nicename", "message": "Sorry, that nicename is already used."})
+ * UniqueEntity({"fields": "displayName", "message": "Sorry, that display name has already been taken."})
  * @ORM\HasLifecycleCallbacks
  * @Wordpress\WordpressTable
  */

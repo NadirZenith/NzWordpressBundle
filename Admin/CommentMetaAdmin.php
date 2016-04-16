@@ -10,10 +10,10 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Route\RouteCollection;
 
-class PostMetaAdmin extends Admin
+class CommentMetaAdmin extends Admin
 {
 
-    protected $parentAssociationMapping = 'post';
+    protected $parentAssociationMapping = 'user';
 
     /**
      * @param \Sonata\AdminBundle\Datagrid\ListMapper $listMapper
@@ -22,17 +22,15 @@ class PostMetaAdmin extends Admin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        
-        if (!$this->isChild()) {
-            $listMapper
-                ->add('post');
-        }
+
         $listMapper
             ->addIdentifier('key')
+            ->add('comment')
             ->add('value')
         ;
-        
-        
+        if ($this->isChild()) {
+            $listMapper->remove('comment');
+        }
     }
 
     /**
@@ -42,28 +40,23 @@ class PostMetaAdmin extends Admin
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
-        
+
         $formMapper
             ->with('General', ['class' => 'col-md-8'])
-            ->end()
-
-        ;
-        if (!$this->isChild()) {
-            $formMapper
-                ->with('General')
-                    ->add('post','sonata_type_model_list', array(
-                        'required' => false,
-                        'btn_add' => false,
-                        'btn_delete' => false,
-                    ))
-                ->end()
-            ;
-        }
-        $formMapper
-            ->with('General')
+                ->add('user','sonata_type_model_list', array(
+                    'required' => false,
+                    'btn_add' => false,
+                    'btn_delete' => false,
+                ))
                 ->add('key')
                 ->add('value')
             ->end()
+        ;
+        if ($this->isChild()) {
+            $formMapper
+                ->remove('user')
+            ;
+        }
         ;
     }
 }

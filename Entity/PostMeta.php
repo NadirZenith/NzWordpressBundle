@@ -118,4 +118,9 @@ class PostMeta
     {
         return $this->post;
     }
+    
+    public function __toString()
+    {
+        return $this->getKey();
+    }
 }
